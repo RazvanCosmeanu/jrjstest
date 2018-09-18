@@ -1,12 +1,14 @@
-const paramsValidators = {
-  season: query => /^([0-9]{1,2})$/.test(query)
-};
+/*
+const queryValidators = {
+  queryKey: (query) => predicate(query)
+}
+*/
 
 const falsey = () => false;
 
-module.exports = (req, res, next) => {
+module.exports = queryValidators => (req, res, next) => {
   for (let param in req.query) {
-    const validator = paramsValidators[param] || falsey;
+    const validator = queryValidators[param] || falsey;
 
     if (param && !validator(req.query[param])) {
       return res.status(422).send({ error: 'Invalid query param.' });

@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 
+import chunkArray from '../chunkArray';
+
 export default class GridList extends Component {
   renderRow(row) {
     return row.map(this.props.renderItem);
   }
 
   renderContent(array) {
-    const unchunkedLength = array.length;
-    const chunked = [];
-    const chunkSize = this.props.rowSize;
-
-    for (let i = 0; i < unchunkedLength; i += chunkSize) {
-      chunked.push(array.slice(i, i + chunkSize));
-    }
+    const chunked = chunkArray(array, this.props.rowSize);
 
     return chunked.map((row, index) => (
       <div key={index} className="row">
